@@ -11,6 +11,7 @@ from collections import Counter
 
 from game_engine.init_deck import create_deck, draw_from_deck
 from utils.format_suits import cards_to_unicode_list
+from utils.format_hands import format_hand
 
 
 def hand_plus_community(player: int, drawn: np.ndarray) -> np.ndarray:
@@ -279,17 +280,23 @@ if __name__ == "__main__":
     print("Community cards:", community_fmt)
 
     evals = []
+    hole_fmts = []
     for i in range(n_players):
         cards = hand_plus_community(i, drawn)
         ev = evaluate_hand(cards)
         evals.append(ev)
+
         hole = cards[:, :2]
         hole_fmt = cards_to_unicode_list(hole)
+        hole_fmts.append(hole_fmt)
         print("Player {}'s hole cards: {}".format(i, hole_fmt))
-        print("player {}'s hand ranking is {}".format(i, ev))
 
     winners, best_ev = evaluate_winner(evals)
+    best_text = format_hand(best_ev, tiebreak=True)
+
     if len(winners) == 1:
-        print(f"Winner: Player {winners[0]} with {best_ev}")
+        w = winners[0]
+        print(f"Winner: Player {w} — {best_text} — hole {hole_fmts[w]}")
     else:
-        print(f"Tie between players {winners} with {best_ev}")
+        holes = {w: hole_fmts[w] for w in winners}
+        print(f"Tie between players {winners} — {best_text} — holes {holes}")
