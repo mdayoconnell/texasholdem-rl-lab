@@ -279,6 +279,15 @@ def main() -> None:
     if rows_done > 0:
         print(f"Resuming: {rows_done} rows already completed (progress={progress_path})")
 
+    # If --limit is set, interpret it as a TOTAL row limit (including already-completed rows).
+    stop_after_total: Optional[int]
+    if args.limit is None:
+        stop_after_total = None
+    else:
+        stop_after_total = int(args.limit)
+        if stop_after_total < 0:
+            raise SystemExit("--limit must be >= 0")
+
     out_exists = args.output.exists()
     out_mode = "a" if out_exists else "w"
 
@@ -318,6 +327,14 @@ def main() -> None:
 
         processed_total = skipped
 
+        if stop_after_total is not None and processed_total >= stop_after_total:
+            # Nothing to do; still ensure progress reflects current state.
+            f_out.flush()
+            os.fsync(f_out.fileno())
+            _write_progress_atomic(progress_path, processed_total)
+            print(f"Limit reached ({stop_after_total}); nothing to process.")
+            return
+
         for local_idx, row in enumerate(reader, start=1):
             processed_total += 1
 
@@ -352,7 +369,7 @@ def main() -> None:
                 os.fsync(f_out.fileno())
                 _write_progress_atomic(progress_path, processed_total)
 
-            if args.limit is not None and local_idx >= args.limit:
+            if stop_after_total is not None and processed_total >= stop_after_total:
                 break
 
         # Final checkpoint
@@ -365,3 +382,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
