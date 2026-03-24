@@ -4,3 +4,6 @@ __pycache__/
 reports/out/
 *.progress.json
 .vscode/
+scratch.py
+src/probability_engine/preflop_calculated_p2to6_20k.ranked.txt
+src/probability_engine/preflop_equity_heatmap_p2to6_20k.png
