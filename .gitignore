@@ -1,49 +1,16 @@
-# ---- Python bytecode / caches ----
-__pycache__/
-*.py[cod]
-*$py.class
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-.cache/
-
-# ---- Virtual environments ----
-.venv/
-venv/
-env/
-ENV/
-tf_mac/
-.conda/
-conda/
-# If you have local Anaconda env folders inside the repo, ignore them too:
-anaconda*/
-miniconda*/
-
-# ---- Jupyter ----
-.ipynb_checkpoints/
-
-# ---- Build / packaging ----
-build/
-dist/
-*.egg-info/
-
-# ---- Logs / data / artifacts ----
-*.log
-*.tmp
-*.pickle
-*.pkl
-*.npy
-*.npz
-
-# ---- OS / editor ----
 .DS_Store
+__pycache__/
+*.pyc
+reports/out/
+*.progress.json
 .vscode/
-!.vscode/settings.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.idea/
-
-# ---- Secrets ----
-.env
-*.key
-*.pem
+scratch.py
+src/probability_engine/preflop_calculated_p2to6_20k.ranked.txt
+src/probability_engine/preflop_equity_heatmap_p2to6_20k.png
+reports/FULL_p2.csv
+reports/FULL_p3.csv
+reports/FULL_p4.csv
+reports/FULL_p5.csv
+reports/FULL_p6.csv
+reports/poker_reports_from_aws_stitched/
+src/probability_engine/cached_equities/FLOP_p*.csv
