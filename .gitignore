@@ -14,3 +14,4 @@ reports/FULL_p5.csv
 reports/FULL_p6.csv
 reports/poker_reports_from_aws_stitched/
 src/probability_engine/cached_equities/FLOP_p*.csv
+src/probability_engine/cached_values
